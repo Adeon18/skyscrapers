@@ -9,7 +9,7 @@ def read_input(path: str) -> list:
     Return list of str.
 
     >>> read_input("check.txt")
-    ['***21**', '452453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***']
+    ['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***']
     """
     with open(path, 'r') as file:
         output_lst = (file.read().split('\n'))
@@ -18,7 +18,7 @@ def read_input(path: str) -> list:
     return output_lst
 
 
-def left_to_right_check(input_line: str, pivot: int):
+def left_to_right_check(input_line: str, pivot: int) -> bool:
     """
     Check row-wise visibility from left to right.
     Return True if number of building from the left-most hint is visible looking to the right,
@@ -46,7 +46,7 @@ def left_to_right_check(input_line: str, pivot: int):
                 return False
 
 
-def check_not_finished_board(board: list):
+def check_not_finished_board(board: list) -> bool:
     """
     Check if skyscraper board is not finished, i.e., '?' present on the game board.
 
@@ -65,7 +65,7 @@ def check_not_finished_board(board: list):
     return True
 
 
-def check_uniqueness_in_rows(board: list):
+def check_uniqueness_in_rows(board: list) -> bool:
     """
     Check buildings of unique height in each row.
 
@@ -91,7 +91,7 @@ def check_uniqueness_in_rows(board: list):
     return True
 
 
-def check_horizontal_visibility(board: list):
+def check_horizontal_visibility(board: list) -> bool:
     """
     Check row-wise visibility (left-right and vice versa)
 
@@ -143,9 +143,7 @@ def check_horizontal_visibility(board: list):
     return True
 
 
-
-
-def check_columns(board: list):
+def check_columns(board: list) -> bool:
     """
     Check column-wise compliance of the board for uniqueness (buildings of unique height) and visibility (top-bottom and vice versa).
 
@@ -168,8 +166,7 @@ def check_columns(board: list):
     return check_horizontal_visibility(new_lst)
 
 
-
-def check_skyscrapers(input_path: str):
+def check_skyscrapers(input_path: str) -> bool:
     """
     Main function to check the status of skyscraper game board.
     Return True if the board status is compliant with the rules,
@@ -182,8 +179,6 @@ def check_skyscrapers(input_path: str):
     if check_horizontal_visibility(board) and check_columns(board) and\
        check_uniqueness_in_rows(board) and check_not_finished_board(board):
         return True
-
-
 
 
 
