@@ -123,7 +123,6 @@ def check_horizontal_visibility(board: list):
             return False
 
 
-
     left_req = '*'
     for row in board[1:-1]:
         left_flag = 0
@@ -162,7 +161,7 @@ def check_columns(board: list):
     new_lst = []
     for i, row in enumerate(board):
         new_elem = ''
-        for j, elem in enumerate(row):
+        for j, _ in enumerate(row):
             new_elem += board[j][i]
         new_lst.append(new_elem)
     
@@ -170,16 +169,22 @@ def check_columns(board: list):
 
 
 
-# def check_skyscrapers(input_path: str):
-#     """
-#     Main function to check the status of skyscraper game board.
-#     Return True if the board status is compliant with the rules,
-#     False otherwise.
+def check_skyscrapers(input_path: str):
+    """
+    Main function to check the status of skyscraper game board.
+    Return True if the board status is compliant with the rules,
+    False otherwise.
 
-#     >>> check_skyscrapers("check.txt")
-#     True
-#     """
-#     pass
+    >>> check_skyscrapers("check.txt")
+    True
+    """
+    board = read_input(input_path)
+    if check_horizontal_visibility(board) and check_columns(board) and\
+       check_uniqueness_in_rows(board) and check_not_finished_board(board):
+        return True
+
+
+
 
 
 if __name__ == "__main__":
