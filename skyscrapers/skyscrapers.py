@@ -36,8 +36,10 @@ def left_to_right_check(input_line: str, pivot: int) -> bool:
     row = input_line
     max_num = 0
     for i, num in enumerate(row):
+        # If the row is *, we move on to the next
         if num == "*":
             continue
+        # Check if the current building is the one we need
         if int(num) > max_num:
             max_num = int(num)
             if i == pivot:
@@ -45,6 +47,7 @@ def left_to_right_check(input_line: str, pivot: int) -> bool:
         elif int(num) <= max_num:
             if i == pivot:
                 return False
+    return False
 
 
 def check_not_finished_board(board: list) -> bool:
@@ -87,9 +90,11 @@ def check_uniqueness_in_rows(board: list) -> bool:
 '*553215', '*35214*', '*41532*', '*2*1***'])
     False
     """
+    # We chop each row
     for row in board[1:-1]:
         elements_int = []
         for elem in row[1:-1]:
+            # If element can't be converted to int, it is skipped
             try:
                 if int(elem) in elements_int:
                     return False
@@ -118,22 +123,26 @@ def check_horizontal_visibility(board: list) -> bool:
 '*543215', '*35214*', '*41532*', '*2*1***'])
     False
     """
+    # Our right hint(default=*)
     right_req = "*"
     for row in board[1:-1]:
+        # We keep track of the max element and seen buildings
         right_flag = 0
         max_elem_right = 0
+        # We skip if there's no hint
         if row[0] == "*":
             continue
         else:
             right_req = int(row[0])
             for elem in row[1:-1]:
+                # Check if the following element is bigger
                 if int(elem) > max_elem_right:
                     max_elem_right = int(elem)
                     right_flag += 1
-
+        # If the hints aren't met, we return False
         if right_flag != right_req:
             return False
-
+    # Same code, another direction, rewritten for better readability
     left_req = "*"
     for row in board[1:-1]:
         left_flag = 0
@@ -174,6 +183,7 @@ def check_columns(board: list) -> bool:
     False
     """
     new_lst = []
+    # Flip and check horisontally
     for i, row in enumerate(board):
         new_elem = ""
         for j, _ in enumerate(row):
@@ -193,6 +203,7 @@ def check_skyscrapers(input_path: str) -> bool:
     True
     """
     board = read_input(input_path)
+    # If everything is met return True
     if (
         check_horizontal_visibility(board)
         and check_columns(board)
@@ -200,9 +211,9 @@ def check_skyscrapers(input_path: str) -> bool:
         and check_not_finished_board(board)
     ):
         return True
+    return False
 
 
 if __name__ == "__main__":
     import doctest
-
     print(doctest.testmod())
