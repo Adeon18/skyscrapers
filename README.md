@@ -1,2 +1,2 @@
 # skyscrapers
-This is my lab1 task. I did only 1 repository as I had a lot of practice with git on linux club and I don't want to fill up my github profile.
+This is a skyscraper game checker. Just give the main module the grid to check(Formats are in data folder), launch it and it will check it for correction
