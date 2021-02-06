@@ -7,9 +7,6 @@ def read_input(path: str) -> list:
     """
     Read game board file from path.
     Return list of str.
-
-    >>> read_input("check.txt")
-    ['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***']
     """
     with open(path, "r") as file:
         output_lst = file.read().split("\n")
@@ -32,21 +29,25 @@ def left_to_right_check(input_line: str, pivot: int) -> bool:
     True
     >>> left_to_right_check("452453*", 5)
     False
+    >>> left_to_right_check("512345*", 5)
+    True
+    >>> left_to_right_check("4124531", 4)
+    True
     """
     row = input_line
     max_num = 0
-    for i, num in enumerate(row):
+    count = 0
+    for _, num in enumerate(row[1:-1]):
         # If the row is *, we move on to the next
         if num == "*":
             continue
         # Check if the current building is the one we need
         if int(num) > max_num:
             max_num = int(num)
-            if i == pivot:
-                return True
-        elif int(num) <= max_num:
-            if i == pivot:
-                return False
+            count += 1
+
+    if count == pivot:
+        return True
     return False
 
 
@@ -101,7 +102,7 @@ def check_uniqueness_in_rows(board: list) -> bool:
                 else:
                     elements_int.append(int(elem))
             except:
-                pass
+                continue
     return True
 
 
@@ -157,7 +158,7 @@ def check_horizontal_visibility(board: list) -> bool:
                     left_flag += 1
                     # print('left ', right_flag, right_req)
 
-        if left_flag != left_req and left_flag != 0:
+        if left_flag != left_req:
             return False
 
     return True
@@ -190,7 +191,9 @@ def check_columns(board: list) -> bool:
             new_elem += board[j][i]
         new_lst.append(new_elem)
 
-    return check_horizontal_visibility(new_lst)
+    if check_uniqueness_in_rows(new_lst) and check_not_finished_board(new_lst):
+        return check_horizontal_visibility(new_lst)
+    return False
 
 
 def check_skyscrapers(input_path: str) -> bool:
@@ -198,9 +201,6 @@ def check_skyscrapers(input_path: str) -> bool:
     Main function to check the status of skyscraper game board.
     Return True if the board status is compliant with the rules,
     False otherwise.
-
-    >>> check_skyscrapers("check.txt")
-    True
     """
     board = read_input(input_path)
     # If everything is met return True
